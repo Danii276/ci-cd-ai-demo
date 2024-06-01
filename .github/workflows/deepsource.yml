@@ -1,0 +1,29 @@
+name: DeepSource Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deepsource:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install deepsource
+
+      - name: Run DeepSource analysis
+        run: deepsource analyze
+        env:
+          DEEPSOURCE_API_KEY: ${{ secrets.DEEPSOURCE_API_KEY }}
